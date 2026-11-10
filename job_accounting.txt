@@ -1,0 +1,5 @@
+JobID                          JobName                             Account  Partition      State ExitCode    Elapsed  AllocCPUS     ReqMem                       NodeList 
+------------ ------------------------- ----------------------------------- ---------- ---------- -------- ---------- ---------- ---------- ------------------------------ 
+65869603           airline-overbooking             compfor203f26s001_class   standard  COMPLETED      0:0   00:00:01          1         1G                         gl3025 
+65869603.ba+                     batch             compfor203f26s001_class             COMPLETED      0:0   00:00:01          1                                    gl3025 
+65869603.ex+                    extern             compfor203f26s001_class             COMPLETED      0:0   00:00:01          1                                    gl3025 
