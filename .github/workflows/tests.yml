@@ -1,0 +1,25 @@
+name: Python Tests
+
+on: push
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python environment
+        uses: mamba-org/setup-micromamba@v3
+        with:
+          environment-file: environment.yml
+
+      - name: Run pytest tests
+        shell: micromamba-shell {0}
+        run: |
+          python --version
+          python -m pytest -v
