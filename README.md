@@ -1,88 +1,60 @@
-Airline Overbooking Simulation
+# Airline Overbooking Simulation
 
 
-1. Project Overview
+## Project Overview
 
-This project uses a Python Monte Carlo simulation to explore how airline overbooking affects profitability.
+This project uses a Python simulation to determine how many tickets an airline should sell for a flight with 100 seats to maximize its expected profit.
 
-The question I wanted to answer was: How many tickets should an airline sell for a 100-seat flight to maximize its expected profit?
+Airlines sometimes overbook flights because not every passenger shows up. Selling additional tickets increases revenue, but if too many passengers arrive, the airline must pay compensation.
 
-Airlines sometimes sell more tickets than available seats because some passengers do not show up. While this increases revenue, it also creates the possibility of having to compensate passengers who cannot board.
+My simulation assumes 100 seats, $200 per ticket, a 10% no-show probability, and $400 in compensation per bumped passenger. It tests selling between 100 and 120 tickets, simulating 1,000 flights for each quantity. I used a random seed of 42 to make the results reproducible.
 
-My simulation uses the following assumptions:
-
-100 available seats
-
-$200 per ticket
-
-10% probability that each passenger does not show up
-
-$400 compensation for each bumped passenger
-
-1,000 simulated flights per ticket quantity
-
-Ticket quantities ranging from 100 to 120
-
-Random seed of 42 for reproducibility
-
-Profit is calculated as ticket revenue minus compensation for bumped passengers.
-
-2. Reproducing the Project
+## Running the Project
 
 The project uses Python 3.11 and Mamba.
 
-Create and activate the environment:
+To create and activate the environment:
 
-mamba env create -f environment.yml
-mamba activate airline-overbooking
+`mamba env create -f environment.yml`
 
-Run the simulation:
+`mamba activate airline-overbooking`
 
-python simulation.py
+To run the simulation:
 
-Run the tests:
+`python simulation.py`
 
-python -m pytest -v
+To run the tests:
 
-The project contains seven pytest tests covering profit calculations, edge cases, and random-seed reproducibility. All seven tests passed on Great Lakes.
+`python -m pytest -v`
 
-Submit the SLURM job on Great Lakes:
+All seven tests passed.
 
-The run.slurm script uses the COMPFOR 203 course allocation. On Great Lakes, create the environment at the path expected by the script:
+To run the simulation on Great Lakes, first create the environment at the path expected by the SLURM script:
 
-module load mamba/py3.11
-mamba env create -f environment.yml --prefix ~/.conda/envs/airline-overbooking
-mkdir -p logs
-sbatch run.slurm
+`module load mamba/py3.11`
 
-The SLURM script specifies the course account, so anyone using a different allocation would need to update it.
+`mamba env create -f environment.yml --prefix ~/.conda/envs/airline-overbooking`
 
-My job ran successfully on Great Lakes:
+Then submit the job:
 
-Job ID: 65869603
+`mkdir -p logs`
 
-Compute node: gl3025.arc-ts.umich.edu
+`sbatch run.slurm`
 
-Status: COMPLETED
+The SLURM script uses the COMPFOR 203 course allocation. My job (65869603) completed successfully on compute node gl3025 with an exit code of 0:0. The output is saved in the logs folder, and the job accounting information is in job_accounting.txt.
 
-Exit code: 0:0
+## Results
 
-The repository includes job_accounting.txt and the job output in logs/ as evidence.
+The highest average profit was $21,729.60 when selling 111 tickets.
 
-3. Results and Interpretation
+Selling only 100 tickets generated $20,000 in profit, so overbooking by 11 tickets increased simulated average profit by $1,729.60, or approximately 8.65%.
 
-The simulation found that selling 111 tickets generated the highest average profit among the strategies tested, at $21,729.60 per flight.
+The results show that moderate overbooking can increase profit, but selling too many tickets increases compensation costs. The model uses simplified assumptions, so 111 tickets is the best result from this simulation rather than a guaranteed optimal strategy.
 
-Selling exactly 100 tickets produced an average profit of $20,000. Selling 111 tickets therefore increased simulated average profit by $1,729.60, or approximately 8.65%.
+## AI Assistance
 
-The results suggest that moderate overbooking can increase profitability because the additional ticket revenue outweighs the expected compensation costs. However, selling too many tickets eventually reduces average profit as more passengers need to be bumped.
+I used ChatGPT (OpenAI, November 10, 2026) to help plan the simulation, structure Python functions and loops, and draft portions of the code. I also used it for assistance with testing, GitHub Actions, Mamba, and troubleshooting SLURM on Great Lakes.
 
-This model is simplified. It assumes fixed ticket prices, independent no-show probabilities, and constant compensation costs. The results are estimates from a finite simulation rather than a guarantee that 111 tickets is always optimal.
+I reviewed and modified the code during development, manually verified the profit calculations, tested different scenarios using pytest, and checked that the results were reproducible. I also submitted the job to Great Lakes and verified its successful execution.
 
-4. AI Assistance and External Sources
-
-I used ChatGPT (OpenAI) during this project to help plan the simulation, understand how to structure the Python functions and loops, and draft portions of the code. I also used it for guidance on testing, GitHub Actions, Mamba environment setup, and troubleshooting the SLURM job submission process.
-
-I reviewed and modified the code during development rather than using the AI-generated suggestions without evaluation. I manually checked the profit calculations, tested different scenarios with pytest, verified that the fixed random seed produced consistent results, and ran the simulation on Great Lakes. I also inspected the SLURM output and accounting records to confirm that the job completed successfully.
-
-AI was used as a coding and troubleshooting assistant. I was responsible for reviewing the implementation, making changes, testing the program, and verifying the final results.
+AI assisted with coding and troubleshooting, but I was responsible for reviewing, modifying, testing, and validating the program.
